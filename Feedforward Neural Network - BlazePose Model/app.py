@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 
 # Load the TensorFlow Lite model
-tflite_model_path = 'C:/Users/john/OneDrive/Documents/THESIS MODEL/educational-tool/Feedforward Neural Network - BlazePose Model/1/model_fnn.tflite'
+tflite_model_path = 'C:/Users/john/OneDrive/Documents/THESIS MODEL/educational-tool/Feedforward Neural Network - BlazePose Model/model_fnn.tflite'
 interpreter = tf.lite.Interpreter(model_path=tflite_model_path)
 interpreter.allocate_tensors()
 
