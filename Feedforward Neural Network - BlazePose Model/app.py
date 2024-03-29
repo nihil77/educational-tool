@@ -32,18 +32,13 @@ while cap.isOpened():
     if not ret:
         break
 
-    # Convert the frame to RGB
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    # Process the frame with BlazePose
     results = pose.process(frame_rgb)
 
-    # Recolor image back to BGR for rendering
     frame = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR)
 
-    # Detect Taijiquan Stances (class)
     if results.pose_landmarks:
-        # Extract Pose landmarks
         pose_landmarks = results.pose_landmarks.landmark
         pose_row = list(np.array([[landmark.x, landmark.y, landmark.z, landmark.visibility] for landmark in pose_landmarks]).flatten())
 
@@ -53,20 +48,15 @@ while cap.isOpened():
         # Convert X to numpy array
         input_data = X.to_numpy().astype(np.float32)
 
-        # Set the input tensor
         interpreter.set_tensor(input_details[0]['index'], input_data)
 
-        # Run inference
         interpreter.invoke()
 
-        # Get the output tensor
         output_data = interpreter.get_tensor(output_details[0]['index'])
 
-        # Get the predicted class and probabilities
         body_language_class = np.argmax(output_data)
         body_language_prob = output_data[0]
 
-        # Convert landmark coordinates to integers
         landmarks_as_pixels = np.array([(int(landmark.x * frame.shape[1]), int(landmark.y * frame.shape[0])) for landmark in results.pose_landmarks.landmark])
 
         # Calculate bounding rectangle
@@ -97,7 +87,6 @@ while cap.isOpened():
 
     cv2.imshow('Pose Detection', frame)
 
-    # Check for exit key (q)
     if cv2.waitKey(10) & 0xFF == ord('q'):
         break
 
